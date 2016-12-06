@@ -7,9 +7,9 @@
  */
 
 /**
- * Ê¹ÓÃCURL¿â¶ÁÈ¡Ö¸¶¨µØÖ·ĞÅÏ¢
- * @param string $url Òª¶ÁÈ¡µÄURLµØÖ·
- * @return string µØÖ·ƒÈÈİ Ê§°ÜÊ±ÎªFALSE
+ * ä½¿ç”¨CURLåº“è¯»å–æŒ‡å®šåœ°å€ä¿¡æ¯
+ * @param string $url è¦è¯»å–çš„URLåœ°å€
+ * @return string åœ°å€å…§å®¹ å¤±è´¥æ—¶ä¸ºFALSE
  */
 function getStockInfo($url, $timeout = 3)
 {
@@ -58,20 +58,50 @@ function getStockInfo($url, $timeout = 3)
     return $response;
 }
 
-$icode = '002419';
+function formatData($_info,$code_key){
+    $pattern  =  '/\(.*\)/' ;
+    preg_match ( $pattern ,  $_info ,  $matches);
+    $matches = $matches[0];
+    $matches = ltrim($matches,"(");
+    $matches = rtrim($matches,")");
+    $matches = json_decode($matches,true);
+    $mdata = $matches;
+    $mdata = $mdata[$code_key];
+    if(empty($mdata) || empty($mdata["data"])){
+        echo "STOCK INFO EMPTY";
+        exit;
+    }
+    /**
+     *
+     * æ‹‰å–è¿™å¤©æ¯ä¸€åˆ†é’Ÿçš„æ•°æ®
+     */
+    $data_info = explode(";",$mdata["data"]);
+    if(empty($data_info) || !is_array($data_info)){
+        echo "STOCK DATA INFO EMPTY";
+        exit;
+    }
+    $d = array();
+    foreach($data_info as $di){
+        $tmp = array();
+        $di_arr = explode(",",$di);
+        $tmp['current_time'] = $di_arr[0];
+        $tmp['current_price'] = $di_arr[1];
+        $tmp['current_avg_price'] = $di_arr[3];
+        $d[] = $tmp;
+    }
+    return $d;
+}
 
 /**
- * Ê¹ÓÃÍ¬»¨Ë³Êı¾İ
+ * ä½¿ç”¨åŒèŠ±é¡ºæ•°æ®
  */
-$code = "399006";
+$code = "000651";
 $code_key = "hs_".$code;
 $url = "http://d.10jqka.com.cn/v2/time/".$code_key."/0930.js";
 $info = getStockInfo($url);
-$pattern  =  '/\(.*\)/' ;
-preg_match ( $pattern ,  $info ,  $matches);
-$matches = $matches[0];
-$matches = ltrim($matches,"(");
-$matches = rtrim($matches,")");
-$matches = json_decode($matches,true);
-$mdata = $matches;
-var_dump($mdata[$code_key]);
+$data = formatData($info,$code_key);
+var_dump($data);
+
+
+
+
