@@ -11,7 +11,7 @@
  * @param string $url 要读取的URL地址
  * @return string 地址內容 失败时为FALSE
  */
-function getArea($url, $timeout = 3)
+function getStockInfo($url, $timeout = 3)
 {
     $ch	= curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -46,8 +46,6 @@ function getArea($url, $timeout = 3)
     $header = array();
     $header[] = "Accept-Language: zh-CN,zh;q=0.8,en;q=0.6";
     $header[] = "Accept-Charset: GBK,utf-8;q=0.7,*;q=0.3";
-    $header[] = "X_TRACK_ID: ". $_SERVER['X_TRACK_ID'];
-    $header[] = "X-BACKEND-BILI-REAL-IP: " . get_ip();
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
     $response	= curl_exec($ch);
@@ -59,3 +57,21 @@ function getArea($url, $timeout = 3)
     @curl_close($ch);
     return $response;
 }
+
+$icode = '002419';
+
+/**
+ * 使用同花顺数据
+ */
+$code = "399006";
+$code_key = "hs_".$code;
+$url = "http://d.10jqka.com.cn/v2/time/".$code_key."/0930.js";
+$info = getStockInfo($url);
+$pattern  =  '/\(.*\)/' ;
+preg_match ( $pattern ,  $info ,  $matches);
+$matches = $matches[0];
+$matches = ltrim($matches,"(");
+$matches = rtrim($matches,")");
+$matches = json_decode($matches,true);
+$mdata = $matches;
+var_dump($mdata[$code_key]);
