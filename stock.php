@@ -7,6 +7,12 @@
  */
 
 /**
+ * 载入响应配置
+ */
+include  'config.php' ;
+include  'mail.php' ;
+###
+/**
  * 使用CURL库读取指定地址信息
  * @param string $url 要读取的URL地址
  * @return string 地址內容 失败时为FALSE
@@ -97,11 +103,20 @@ function formatData($_info,$code_key){
  */
 $code = "000651";
 $code_key = "hs_".$code;
-$url = "http://d.10jqka.com.cn/v2/time/".$code_key."/0930.js";
+$url = STOCK_URL.$code_key."/0930.js";
 $info = getStockInfo($url);
 $data = formatData($info,$code_key);
 var_dump($data);
 
-
-
-
+/**************************** Test ***********************************/
+$mail = new MySendMail();
+$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+$mail->setFrom(MAIL_NAME);
+$mail->setReceiver(RECEIVER_MAIL);
+//$mail->setReceiver("XXXXX@XXXXX");
+//$mail->setCc("XXXXX@XXXXX");
+//$mail->setBcc("XXXXX@XXXXX");
+//$mail->setBcc("XXXXX@XXXXX");
+//$mail->setBcc("XXXXX@XXXXX");
+$mail->setMailInfo("每日邮件提醒", "<b>test</b>这封是来自自己的测试邮件");
+$mail->sendMail();
