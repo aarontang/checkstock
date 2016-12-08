@@ -106,17 +106,29 @@ $code_key = "hs_".$code;
 $url = STOCK_URL.$code_key."/0930.js";
 $info = getStockInfo($url);
 $data = formatData($info,$code_key);
-var_dump($data);
+//var_dump($data);
+
+//我的自选股
+$pdo = new PDO(DSN, DB_USER, DB_PASSWD);
+$sth  =  $pdo -> prepare ( 'select * from select_stock where uid = ?' );
+$sth -> execute (array(1));
+$my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
+
+
+//$count  =  $pdo -> exec ( "INSERT INTO select_stock VALUES (null,1,'000651',27.009,0);" );
+var_dump($my_stock);
+
+
 
 /**************************** Test ***********************************/
-$mail = new MySendMail();
-$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
-$mail->setFrom(MAIL_NAME);
-$mail->setReceiver(RECEIVER_MAIL);
-//$mail->setReceiver("XXXXX@XXXXX");
-//$mail->setCc("XXXXX@XXXXX");
-//$mail->setBcc("XXXXX@XXXXX");
-//$mail->setBcc("XXXXX@XXXXX");
-//$mail->setBcc("XXXXX@XXXXX");
-$mail->setMailInfo("每日邮件提醒", "<b>test</b>这封是来自自己的测试邮件");
-$mail->sendMail();
+//$mail = new MySendMail();
+//$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+//$mail->setFrom(MAIL_NAME);
+//$mail->setReceiver(RECEIVER_MAIL);
+////$mail->setReceiver("XXXXX@XXXXX");
+////$mail->setCc("XXXXX@XXXXX");
+////$mail->setBcc("XXXXX@XXXXX");
+////$mail->setBcc("XXXXX@XXXXX");
+////$mail->setBcc("XXXXX@XXXXX");
+//$mail->setMailInfo("每日邮件提醒", "<b>test</b>这封是来自自己的测试邮件");
+//$mail->sendMail();
