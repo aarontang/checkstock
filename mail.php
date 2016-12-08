@@ -281,7 +281,7 @@ class MySendMail {
 
         $separator = "----=_Part_" . md5($this->_from . time()) . uniqid(); //分隔符
         //设置发件人
-        $header = "FROM: test<" . $this->_from . ">\r\n";
+        $header = "FROM: STOCK每日提醒<" . $this->_from . ">\r\n";
 
         //设置收件人
         if(is_array($this->_to)) {

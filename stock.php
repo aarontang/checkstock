@@ -98,37 +98,50 @@ function formatData($_info,$code_key){
     return $d;
 }
 
-/**
- * 使用同花顺数据
- */
-$code = "000651";
-$code_key = "hs_".$code;
-$url = STOCK_URL.$code_key."/0930.js";
-$info = getStockInfo($url);
-$data = formatData($info,$code_key);
-//var_dump($data);
+
 
 //我的自选股
 $pdo = new PDO(DSN, DB_USER, DB_PASSWD);
 $sth  =  $pdo -> prepare ( 'select * from select_stock where uid = ?' );
 $sth -> execute (array(1));
 $my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
+//var_dump($my_stock);
+/**
+ * 使用同花顺数据
+ */
+//$code = $ms['stock_code'];
+//$code = "000651";
+//$code_key = "hs_".$code;
+//$url = STOCK_URL.$code_key."/0930.js";
+//$info = getStockInfo($url);
+//$data = formatData($info,$code_key);
+//$length = count($data);
+//var_dump($data[$length-1]);
 
-
-//$count  =  $pdo -> exec ( "INSERT INTO select_stock VALUES (null,1,'000651',27.009,0);" );
-var_dump($my_stock);
-
-
-
+//判断是否存在比预期的低 加仓提醒
+$my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
+$mail_text = "";
+foreach($my_stock as $ms){
+    $cold = empty($ms['alter_time']) ? true : false;
+    $cold = $cold ? true : time()-strtotime($ms['alter_time']) > 86400; //一天就提醒一次
+    if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
+        $code = $ms['stock_code'];
+        $code_key = "hs_".$code;
+        $url = STOCK_URL.$code_key."/0930.js";
+        $info = getStockInfo($url);
+        $data = formatData($info,$code_key);
+        $length = count($data);
+        $current_pric = empty($data[$length-1]['current_price']) ? 0 : $data[$length-1]['current_price'];
+        //如果不为空且当前价格小于检测价格
+        if(!empty($current_pric) && $current_pric<$ms['stock_price']){
+            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---"."当前价格---".$current_pric."<font color='red'>建议加仓</font><br />";
+        }
+    }
+}
 /**************************** Test ***********************************/
-//$mail = new MySendMail();
-//$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
-//$mail->setFrom(MAIL_NAME);
-//$mail->setReceiver(RECEIVER_MAIL);
-////$mail->setReceiver("XXXXX@XXXXX");
-////$mail->setCc("XXXXX@XXXXX");
-////$mail->setBcc("XXXXX@XXXXX");
-////$mail->setBcc("XXXXX@XXXXX");
-////$mail->setBcc("XXXXX@XXXXX");
-//$mail->setMailInfo("每日邮件提醒", "<b>test</b>这封是来自自己的测试邮件");
-//$mail->sendMail();
+$mail = new MySendMail();
+$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+$mail->setFrom(MAIL_NAME);
+$mail->setReceiver(RECEIVER_MAIL);
+$mail->setMailInfo("每日邮件提醒", $mail_text);
+$mail->sendMail();
