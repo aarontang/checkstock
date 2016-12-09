@@ -124,24 +124,35 @@ $mail_text = "";
 foreach($my_stock as $ms){
     $cold = empty($ms['alter_time']) ? true : false;
     $cold = $cold ? true : time()-strtotime($ms['alter_time']) > 86400; //一天就提醒一次
-    if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
-        $code = $ms['stock_code'];
-        $code_key = "hs_".$code;
-        $url = STOCK_URL.$code_key."/0930.js";
-        $info = getStockInfo($url);
-        $data = formatData($info,$code_key);
-        $length = count($data);
+    $code = $ms['stock_code'];
+    $code_key = "hs_".$code;
+    $url = STOCK_URL.$code_key."/0930.js";
+    $info = getStockInfo($url);
+    $data = formatData($info,$code_key);
+    $length = count($data);
+//    if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
+    if(true){
         $current_pric = empty($data[$length-1]['current_price']) ? 0 : $data[$length-1]['current_price'];
         //如果不为空且当前价格小于检测价格
         if(!empty($current_pric) && $current_pric<$ms['stock_price']){
-            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---"."当前价格---".$current_pric."<font color='red'>建议加仓</font><br />";
+            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---".$ms['stock_name']."当前价格---".$current_pric."<font color='red'>建议加仓</font><br />";
+            //加入冷却时间避免反复提醒
+            $c_price = date('Y-m-d H:i:s',time());
+            $sql = "update select_stock set alter_time = '".$c_price."' WHERE id = 1;";
+            $re = $pdo -> exec ($sql);
+            var_dump($re);
         }
+        //加入监控日志 每次检测的结果写入数据库
+        $sql="";
+
     }
 }
-/**************************** Test ***********************************/
-$mail = new MySendMail();
-$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
-$mail->setFrom(MAIL_NAME);
-$mail->setReceiver(RECEIVER_MAIL);
-$mail->setMailInfo("每日邮件提醒", $mail_text);
-$mail->sendMail();
+/**************************** 开始发送邮件 ***********************************/
+$mail_text = "<p>".$mail_text."</p>";
+var_dump($mail_text);
+//$mail = new MySendMail();
+//$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+//$mail->setFrom(MAIL_NAME);
+//$mail->setReceiver(RECEIVER_MAIL);
+//$mail->setMailInfo("每日邮件提醒", $mail_text);
+//$mail->sendMail();
