@@ -1,3 +1,8 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
 <?php
 /**
  * Created by aaron <2590419211@qq.com>.
@@ -22,14 +27,16 @@ $mail_text = <<<EOF
     <td>格力电器</td>
     <td>25.62</td>
     <td>26.00</td>
-    <td color="red">建议加仓</td>
+    <td><font color="red">建议加仓</font></td>
   </tr>
 </table>
 EOF;
-
 $mail = new MySendMail();
 $mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
 $mail->setFrom(MAIL_NAME);
 $mail->setReceiver(RECEIVER_MAIL);
 $mail->setMailInfo("每日邮件提醒", $mail_text);
 $mail->sendMail();
+echo "success";
+?>
+</html>

@@ -120,7 +120,7 @@ $my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
 
 //判断是否存在比预期的低 加仓提醒
 $my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
-$mail_text = "";
+$mail_t = "";
 foreach($my_stock as $ms){
     $cold = empty($ms['alter_time']) ? true : false;
     $cold = $cold ? true : time()-strtotime($ms['alter_time']) > 86400; //一天就提醒一次
@@ -136,7 +136,8 @@ foreach($my_stock as $ms){
     if(true){
         //如果不为空且当前价格小于检测价格
         if(!empty($current_pric) && $current_pric<$ms['stock_price'] && $ms['check_type']==0){
-            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---".$ms['stock_name']."当前价格---".$current_pric."监测价格---"."<font color='red'>建议加仓</font><br />";
+            // $mail_t .= "股票代码---".$ms['stock_code']."---股票名称---".$ms['stock_name']."当前价格---".$current_pric."监测价格---"."<font color='red'>建议加仓</font><br />";
+			$mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议加仓</font></td></tr>";
             //加入冷却时间避免反复提醒
             $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = 1;";
             $re = $pdo -> exec ($sql);
@@ -147,11 +148,24 @@ foreach($my_stock as $ms){
     }
 }
 /**************************** 开始发送邮件 ***********************************/
+$mail_text = <<<EOF
+<table border="1">
+<caption>股票监测提醒</caption>
+  <tr>
+    <th>股票代码</th>
+    <th>股票名称</th>
+    <th>当前价格</th>
+    <th>监测价格</th>
+    <th>操作建议</th>
+  </tr>
+  $mail_t
+</table>
+EOF;
 $mail_text = "<p>".$mail_text."</p>";
-var_dump($mail_text);
-//$mail = new MySendMail();
-//$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
-//$mail->setFrom(MAIL_NAME);
-//$mail->setReceiver(RECEIVER_MAIL);
-//$mail->setMailInfo("每日邮件提醒", $mail_text);
-//$mail->sendMail();
+$mail = new MySendMail();
+$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+$mail->setFrom(MAIL_NAME);
+$mail->setReceiver(RECEIVER_MAIL);
+$mail->setMailInfo("每日邮件提醒", $mail_text);
+$mail->sendMail();
+echo "success";
