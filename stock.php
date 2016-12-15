@@ -135,18 +135,15 @@ foreach($my_stock as $ms){
 //    if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
     if(true){
         //如果不为空且当前价格小于检测价格
-        if(!empty($current_pric) && $current_pric<$ms['stock_price']){
-            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---".$ms['stock_name']."当前价格---".$current_pric."<font color='red'>建议加仓</font><br />";
+        if(!empty($current_pric) && $current_pric<$ms['stock_price'] && $ms['check_type']==0){
+            $mail_text .= "股票代码---".$ms['stock_code']."---股票名称---".$ms['stock_name']."当前价格---".$current_pric."监测价格---"."<font color='red'>建议加仓</font><br />";
             //加入冷却时间避免反复提醒
-
             $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = 1;";
             $re = $pdo -> exec ($sql);
-            var_dump($re);
         }
         //加入监控日志 每次检测的结果写入数据库
         $sql="INSERT INTO check_stock VALUES(null,'".$ms['stock_code']."',".$current_pric.",'".$c_date."');";
         $re = $pdo -> exec ($sql);
-        var_dump($re);
     }
 }
 /**************************** 开始发送邮件 ***********************************/
