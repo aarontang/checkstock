@@ -28,5 +28,15 @@
  */
 include  'config.php' ;
 include  'mail.php' ;
+if(!empty($_POST['submit'])){
+  $pdo = new PDO(DSN, DB_USER, DB_PASSWD);
+  $sql="INSERT INTO select_stock VALUES(null,1,'".$_POST['stock_code']."',".$_POST['stock_price'].",".$_POST['check_type'].",'".$_POST['stock_name']."','',0);";
+  $re = $pdo -> exec ($sql);
+  if($re){
+    echo "success";
+  }else{
+    echo "fail";
+  }
+}
 ?>
 </html>
