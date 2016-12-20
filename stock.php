@@ -105,18 +105,6 @@ $pdo = new PDO(DSN, DB_USER, DB_PASSWD);
 $sth  =  $pdo -> prepare ( 'select * from select_stock where uid = ?' );
 $sth -> execute (array(1));
 $my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
-//var_dump($my_stock);
-/**
- * 使用同花顺数据
- */
-//$code = $ms['stock_code'];
-//$code = "000651";
-//$code_key = "hs_".$code;
-//$url = STOCK_URL.$code_key."/0930.js";
-//$info = getStockInfo($url);
-//$data = formatData($info,$code_key);
-//$length = count($data);
-//var_dump($data[$length-1]);
 
 //判断是否存在比预期的低 加仓提醒
 $my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
