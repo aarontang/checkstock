@@ -109,6 +109,7 @@ $my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
 //判断是否存在比预期的低 加仓提醒
 $my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
 $mail_t = "";
+$ismail = false;
 foreach($my_stock as $ms){
     $cold = empty($ms['alter_time']) ? true : false;
     $cold = $cold ? true : time()-strtotime($ms['alter_time']) > 86400; //一天就提醒一次
@@ -127,12 +128,14 @@ foreach($my_stock as $ms){
             //加入冷却时间避免反复提醒
             $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = ".$ms['id'];
             $re = $pdo -> exec ($sql);
+            $ismail = true;
         }
         if(!empty($current_pric) && $current_pric>$ms['stock_price'] && $ms['check_type']==1){
             $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议减仓或者清仓</font></td></tr>";
             //加入冷却时间避免反复提醒
             $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = ".$ms['id'];
             $re = $pdo -> exec ($sql);
+            $ismail = true;
         }
         //加入监控日志 每次检测的结果写入数据库
         $sql="INSERT INTO check_stock VALUES(null,'".$ms['stock_code']."',".$current_pric.",'".$c_date."');";
@@ -153,11 +156,13 @@ $mail_text = <<<EOF
   $mail_t
 </table>
 EOF;
-$mail_text = "<p>".$mail_text."</p>";
-$mail = new MySendMail();
-$mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
-$mail->setFrom(MAIL_NAME);
-$mail->setReceiver(RECEIVER_MAIL);
-$mail->setMailInfo("每日邮件提醒", $mail_text);
-$mail->sendMail();
+if($ismail === true){
+    $mail_text = "<p>".$mail_text."</p>";
+    $mail = new MySendMail();
+    $mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
+    $mail->setFrom(MAIL_NAME);
+    $mail->setReceiver(RECEIVER_MAIL);
+    $mail->setMailInfo("每日邮件提醒", $mail_text);
+    $mail->sendMail();
+}
 echo "success";
