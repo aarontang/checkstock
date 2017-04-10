@@ -15,7 +15,12 @@ $serv->on('connect', function ($serv, $fd){
     echo "Client:Connect.\n";
 });
 $serv->on('receive', function ($serv, $fd, $from_id, $data) {
-    $serv->send($fd, 'Swoole: '.$data);
+    echo "Client:Receive.\n";
+    var_dump($data);
+    $ss = "abc";
+    $string = 's'.strlen($ss).$ss;
+    $sp = pack('N',$string);
+    $serv->send($fd, $sp);
     $serv->close($fd);
 });
 $serv->on('close', function ($serv, $fd) {

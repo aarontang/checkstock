@@ -10,7 +10,6 @@
 //127.0.0.1本机回环 没有通过网卡
 //
 $ser = new swoole_server('127.0.0.1',9501);
-
 //事件  有三个基本都要设置回调的，一个是链接，一个是接受数据，一个是关闭
 //设置事件 事件回调的匿名函数
 //链接时候的事件
@@ -28,7 +27,6 @@ $ser->on('receive',function(swoole_server $ser,$fd,$fromid,$data){
 //关闭事件
 $ser->on('close',function($ser,$fd,$fromid){
     echo "closed \n";
-    var_dump($ser,$fd,$fromid);
 });
 
 $ser->start();
