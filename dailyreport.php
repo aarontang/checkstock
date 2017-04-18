@@ -138,7 +138,7 @@ foreach($my_stock as $ms){
     if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
         //如果不为空且当前价格小于检测价格
         if(!empty($current_pric) && $current_pric<$ms['stock_price'] && $ms['check_type']==0){
-			$mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议加仓</font></td></tr>";
+            $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议加仓</font></td></tr>";
             //加入冷却时间避免反复提醒
             $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = ".$ms['id'];
             $re = $pdo -> exec ($sql);

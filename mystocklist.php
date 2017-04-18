@@ -16,7 +16,7 @@
 	$my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
 	foreach($my_stock as $ms){
 		?>
-		<tr><td><?php echo $ms['stock_code'];?></td><td><?php echo $ms['stock_name'];?></td><td><?php echo $ms['stock_price'];?></td><td><?php if($_POST['check_type']==0){echo "下限";}else{echo "上限";}?></td></tr>
+		<tr><td><?php echo $ms['stock_code'];?></td><td><?php echo $ms['stock_name'];?></td><td><?php echo $ms['stock_price'];?></td><td><?php if($ms['check_type']==0){echo "下限";}else{echo "上限";}?></td></tr>
 		<?php
 	}
 	?>

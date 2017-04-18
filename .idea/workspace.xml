@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32b589bb-0c57-4b34-b7a2-fdef808e681f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dailyreport.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mystocklist.php" afterPath="$PROJECT_DIR$/mystocklist.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock.php" afterPath="$PROJECT_DIR$/stock.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,35 +27,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#6#102#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="echoserver.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/echoserver.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="276">
               <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-              <folding>
-                <element signature="e#6#102#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="client1.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client1.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#6#102#0#PHP" expanded="true" />
               </folding>
@@ -103,19 +79,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stock.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="stock.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stock.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="575">
-              <caret line="108" column="32" lean-forward="true" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="32" />
+            <state relative-caret-position="414">
+              <caret line="100" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="181" selection-end-column="15" />
               <folding>
                 <element signature="n#getStockInfo#0;n#!!top" expanded="false" />
                 <element signature="n#formatData#0;n#!!top" expanded="false" />
-                <marker date="1492494763105" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
-                <marker date="1492494763105" expanded="true" signature="4221:4283" ph="update selec... " />
-                <marker date="1492494763105" expanded="true" signature="4708:4770" ph="update selec... " />
-                <marker date="1492494763105" expanded="true" signature="4904:4996" ph="INSERT INTO check_stock... " />
-                <marker date="1492494763105" expanded="true" signature="5187:5285" ph="..." />
+                <marker date="1492502236365" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
+                <marker date="1492502236365" expanded="true" signature="4221:4283" ph="update selec... " />
+                <marker date="1492502236365" expanded="true" signature="4708:4770" ph="update selec... " />
+                <marker date="1492502236365" expanded="true" signature="4904:4996" ph="INSERT INTO check_stock... " />
+                <marker date="1492502236365" expanded="true" signature="5187:5285" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dailyreport.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dailyreport.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="98" column="1" lean-forward="true" selection-start-line="98" selection-start-column="1" selection-end-line="98" selection-end-column="1" />
+              <folding>
+                <element signature="n#getStockInfo#0;n#!!top" expanded="false" />
+                <element signature="n#formatData#0;n#!!top" expanded="false" />
+                <marker date="1492502888337" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
+                <marker date="1492502888337" expanded="true" signature="4230:4292" ph="update selec... " />
+                <marker date="1492502888337" expanded="true" signature="4717:4779" ph="update selec... " />
+                <marker date="1492502888337" expanded="true" signature="4913:5005" ph="INSERT INTO check_stock... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mystocklist.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mystocklist.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+              <folding>
+                <marker date="1492501926814" expanded="true" signature="336:376" ph="select * fro... select_stock" />
               </folding>
             </state>
           </provider>
@@ -152,6 +157,7 @@
       <find>N,</find>
       <find>'N',</find>
       <find>'S',</find>
+      <find>check_type</find>
     </findStrings>
     <replaceStrings>
       <replace>'.pack(N,'0xFF').'</replace>
@@ -176,7 +182,9 @@
         <option value="$PROJECT_DIR$/echoserver.php" />
         <option value="$PROJECT_DIR$/test.php" />
         <option value="$PROJECT_DIR$/config.php" />
+        <option value="$PROJECT_DIR$/mystocklist.php" />
         <option value="$PROJECT_DIR$/stock.php" />
+        <option value="$PROJECT_DIR$/dailyreport.php" />
       </list>
     </option>
   </component>
@@ -332,12 +340,12 @@
       <workItem from="1492163790703" duration="459000" />
       <workItem from="1492419504376" duration="619000" />
       <workItem from="1492485976476" duration="2627000" />
-      <workItem from="1492494263308" duration="666000" />
+      <workItem from="1492494263308" duration="2756000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32639000" />
+    <option name="totallyTimeSpent" value="34729000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1592" y="-188" width="1936" height="1096" extended-state="0" />
@@ -375,26 +383,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#102#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client1.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#102#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/udp_server.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -847,18 +835,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mystocklist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <marker date="1492501926814" expanded="true" signature="336:376" ph="select * fro... select_stock" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/stock.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="108" column="32" lean-forward="true" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="32" />
+        <state relative-caret-position="414">
+          <caret line="100" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="181" selection-end-column="15" />
           <folding>
             <element signature="n#getStockInfo#0;n#!!top" expanded="false" />
             <element signature="n#formatData#0;n#!!top" expanded="false" />
-            <marker date="1492494763105" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
-            <marker date="1492494763105" expanded="true" signature="4221:4283" ph="update selec... " />
-            <marker date="1492494763105" expanded="true" signature="4708:4770" ph="update selec... " />
-            <marker date="1492494763105" expanded="true" signature="4904:4996" ph="INSERT INTO check_stock... " />
-            <marker date="1492494763105" expanded="true" signature="5187:5285" ph="..." />
+            <marker date="1492502236365" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
+            <marker date="1492502236365" expanded="true" signature="4221:4283" ph="update selec... " />
+            <marker date="1492502236365" expanded="true" signature="4708:4770" ph="update selec... " />
+            <marker date="1492502236365" expanded="true" signature="4904:4996" ph="INSERT INTO check_stock... " />
+            <marker date="1492502236365" expanded="true" signature="5187:5285" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dailyreport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="98" column="1" lean-forward="true" selection-start-line="98" selection-start-column="1" selection-end-line="98" selection-end-column="1" />
+          <folding>
+            <element signature="n#getStockInfo#0;n#!!top" expanded="false" />
+            <element signature="n#formatData#0;n#!!top" expanded="false" />
+            <marker date="1492502888337" expanded="true" signature="3043:3083" ph="select * fro... select_stock" />
+            <marker date="1492502888337" expanded="true" signature="4230:4292" ph="update selec... " />
+            <marker date="1492502888337" expanded="true" signature="4717:4779" ph="update selec... " />
+            <marker date="1492502888337" expanded="true" signature="4913:5005" ph="INSERT INTO check_stock... " />
           </folding>
         </state>
       </provider>
