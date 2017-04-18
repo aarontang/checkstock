@@ -5,7 +5,7 @@
       <paths name="checkstock">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/tangwt/code/checkstock " local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/tangwt/code/checkstock" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

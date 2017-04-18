@@ -99,6 +99,20 @@ function formatData($_info,$code_key){
 }
 
 
+//周六日和非交易时间不提示
+if(date('w')==6 || date('w') == 0){
+    echo "周六日不提示";
+    exit;
+}
+
+$date = date('Y-m-d');
+$start_date = $date." 09:00:00";
+$end_date = $date." 16:00:00";
+
+if(time()>$end_date && time()<$start_date){
+    echo "不在交易时间段内";
+    exit;
+}
 
 //我的自选股
 $pdo = new PDO(DSN, DB_USER, DB_PASSWD);
