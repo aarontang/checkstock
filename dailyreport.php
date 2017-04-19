@@ -104,56 +104,32 @@ if(date('w')==6 || date('w') == 0){
     echo "周六日不提示";
     exit;
 }
-
-$date = date('Y-m-d');
-$start_date = $date." 09:00:00";
-$end_date = $date." 17:00:00";
-
-if(time()>$end_date && time()<$start_date){
-    echo "不在交易时间段内";
-    exit;
-}
-
-//我的自选股
+//我的持仓
 $pdo = new PDO(DSN, DB_USER, DB_PASSWD);
-$sth  =  $pdo -> prepare ( 'select * from select_stock where uid = ?' );
-$sth -> execute (array(1));
+$sth  =  $pdo -> prepare ( 'select * from my_stock' );
+$sth -> execute ();
 $my_stock  =  $sth -> fetchAll (PDO::FETCH_ASSOC);
 
 //判断是否存在比预期的低 加仓提醒
 $my_stock = empty($my_stock) || !is_array($my_stock) ? array() : $my_stock;
 $mail_t = "";
-$ismail = false;
+$ismail = true;
 foreach($my_stock as $ms){
-    $cold = empty($ms['alter_time']) ? true : false;
-    $cold = $cold ? true : time()-strtotime($ms['alter_time']) > 86400; //一天就提醒一次
-    $code = $ms['stock_code'];
-    $code_key = "hs_".$code;
+    $code_key = "hs_".$ms['stock_code'];
     $url = STOCK_URL.$code_key."/0930.js";
     $info = getStockInfo($url);
     $data = formatData($info,$code_key);
     $length = count($data);
     $current_pric = empty($data[$length-1]['current_price']) ? 0 : $data[$length-1]['current_price'];
-    $c_date = date('Y-m-d H:i:s',time());
-    if(!empty($ms['stock_code']) && $ms['stock_price']>0 && $cold){
-        //如果不为空且当前价格小于检测价格
-        if(!empty($current_pric) && $current_pric<$ms['stock_price'] && $ms['check_type']==0){
-            $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议加仓</font></td></tr>";
-            //加入冷却时间避免反复提醒
-            $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = ".$ms['id'];
-            $re = $pdo -> exec ($sql);
-            $ismail = true;
-        }
-        if(!empty($current_pric) && $current_pric>$ms['stock_price'] && $ms['check_type']==1){
-            $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td>".$ms['stock_price']."</td><td><font color='red'>建议减仓或者清仓</font></td></tr>";
-            //加入冷却时间避免反复提醒
-            $sql = "update select_stock set alter_time = '".$c_date."' WHERE id = ".$ms['id'];
-            $re = $pdo -> exec ($sql);
-            $ismail = true;
-        }
-        //加入监控日志 每次检测的结果写入数据库
-        $sql="INSERT INTO check_stock VALUES(null,'".$ms['stock_code']."',".$current_pric.",'".$c_date."');";
-        $re = $pdo -> exec ($sql);
+    $r = ($current_pric/$ms['price']-1)*100;
+    $r1 = $r>0 ? true : false;
+    $ar = sprintf("%.2f",abs($r))."%";
+    if($r1){
+        //表示盈利
+        $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td><font color='red'>".$ar."</font></td></tr>";
+    }else{
+        //表示亏损
+        $mail_t.="<tr><td>".$ms['stock_code']."</td><td>".$ms['stock_name']."</td><td>".$current_pric."</td><td><font color='green'>".$ar."</font></td></tr>";
     }
 }
 /**************************** 开始发送邮件 ***********************************/
@@ -164,8 +140,7 @@ $mail_text = <<<EOF
     <th>股票代码</th>
     <th>股票名称</th>
     <th>当前价格</th>
-    <th>监测价格</th>
-    <th>操作建议</th>
+    <th>当前盈亏</th>
   </tr>
   $mail_t
 </table>
@@ -176,7 +151,7 @@ if($ismail === true){
     $mail->setServer(SMTP_HOST, MAIL_NAME, MAIL_PASSWD);
     $mail->setFrom(MAIL_NAME);
     $mail->setReceiver(RECEIVER_MAIL);
-    $mail->setMailInfo("每日邮件提醒", $mail_text);
+    $mail->setMailInfo("每日结算报告", $mail_text);
     $mail->sendMail();
 }
 echo "success";
