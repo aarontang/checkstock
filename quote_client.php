@@ -123,7 +123,6 @@ $client->on("receive", function ($cli, $data) {
     if (substr($data, 2, 2) == '40') {
         $_data[0] = "sub";
         $_data[1]['symbol'][] = "RB1709";
-        var_dump($_data);
         $cli->send(hybi10Encode('42/socket.io/,["sub","{\"symbol\":[\"RB1709\"]}"]'));
     }
 });
